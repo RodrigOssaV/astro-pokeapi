@@ -1,0 +1,61 @@
+---
+const pokemon = await fetch("https://pokeapi.co/api/v2/pokemon/6");
+const data = await pokemon.json();
+
+//console.log(data);
+const { abilities, types, stats } = data;
+const height = data.height;
+const weight = data.weight;
+//console.log(filter_text_entries_name);
+---
+<div class="grid justify-items-center">
+    <p>
+        #{data.id} - {data.name}
+    </p>
+    <img src={data.sprites.front_default} />
+    <p>Characteristic</p>
+    <ul class="list-disc px-6">
+        <li><p id="pk-height">{height}</p></li>
+        <li><p id="pk-weight">{weight}</p></li>
+    </ul>
+    <p>Abilities</p>
+    <ul class="list-disc px-6">
+        {abilities.map((x: any) => <li>{x.ability.name}</li>)}
+    </ul>
+    <p>Types</p>
+    <ul class="list-disc px-6">
+        {types.map((type: any) => <li>{type.type.name}</li>)}
+    </ul>
+    <p>Stats</p>
+    <ul class="list-disc px-6">
+        {
+        stats.map((stat: any) => (
+            <li>
+            {stat.stat.name}: {stat.base_stat}
+            </li>
+        ))
+        }
+    </ul>
+</div>
+<script>
+    function convertDecimetersToMeters(number: number) {
+        let multi = (number * 0.1).toFixed(2);
+        return multi;
+    }
+
+    function convertHectogramsToKilograms(number: number) {
+        let multi = (number * 0.1).toFixed(2);
+        return multi;
+    }
+    const heigth = document.getElementById("pk-height");
+    const weight = document.getElementById("pk-weight");
+    let height_value = heigth.innerHTML;
+    let weight_value = weight.innerHTML;
+    let height_number = parseInt(height_value);
+    let weight_number = parseInt(weight_value);
+    let height_meter = convertDecimetersToMeters(height_number).toString();
+    let weight_kilogram = convertHectogramsToKilograms(weight_number).toString();
+
+    heigth.innerHTML = height_meter + " mts.";
+    weight.innerHTML = weight_kilogram + " kgs.";
+</script>

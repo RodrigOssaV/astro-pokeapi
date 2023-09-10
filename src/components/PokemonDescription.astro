@@ -1,0 +1,55 @@
+---
+const pokemon_species = await fetch(
+    "https://pokeapi.co/api/v2/pokemon-species/6"
+);
+const data_species = await pokemon_species.json();
+const { flavor_text_entries } = data_species;
+const array = [];
+
+const filter_text_entries_english = await flavor_text_entries.filter(
+    (x: any) => x.language.name === "en"
+);
+await filter_text_entries_english.filter((x: any) => {
+  //console.log(x);
+    let name = x.version.name;
+    let flavor_text = x.flavor_text;
+    let replace_flavor_text = flavor_text.replace(/^\n/gm, '');
+    //console.log(replace_flavor_text);
+    array.push({ name, flavor_text });
+    //console.log(array);
+    return array;
+});
+---
+
+<div class="w-96">
+    <select
+        id="select-version-name"
+        class="bg-gray-50 border mb-2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block
+            w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+            dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    >
+        <option selected>Select your description game</option>
+        {array.map((x: any) => <option value={x.flavor_text}>{x.name}</option>)}
+    </select>
+    <textarea
+        id="textarea-description-pokemon"
+        rows="8"
+        readonly
+        disabled
+        class="resize-none min-w-full block p-2.5 w-full  text-gray-900 bg-gray-50 rounded-lg border border-gray-300 
+        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+        dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    </textarea>
+</div>
+<script>
+    function handleSelect() {
+        //console.log(select.value);
+        const textarea = document.getElementById("textarea-description-pokemon");
+        let textarea_value = textarea.innerHTML;
+        //console.log(textarea_value);
+        var description = select.value;
+        textarea.textContent = description;
+    }
+    var select = document.getElementById("select-version-name") as HTMLSelectElement;
+    select.addEventListener("change", handleSelect);
+</script>

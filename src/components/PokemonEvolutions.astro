@@ -1,0 +1,57 @@
+---
+interface PokemonClass {
+    name: string;
+    order: number;
+    sprite: string;
+}
+const evolution_chain = await fetch("https://pokeapi.co/api/v2/evolution-chain/2/");
+const data_evolution = await evolution_chain.json();
+//console.log(data_evolution);
+const first_evolution = data_evolution.chain.species;
+//console.log(first_evolution);
+const second_evolution = data_evolution.chain.evolves_to[0].species;
+const third_evolution = data_evolution.chain.evolves_to[0].evolves_to[0].species;
+
+//console.log(second_evolution);
+
+const data_pokemon: PokemonClass[] = [];
+
+const buildArrayDataEvolutions = async (first: any, second: any, third: any) => {
+    //console.log(first);
+    const response_first_pkm = await fetch(`https://pokeapi.co/api/v2/pokemon/${first}`);
+    const response_second_pkm = await fetch(`https://pokeapi.co/api/v2/pokemon/${second}`);
+    const response_third_pkm = await fetch(`https://pokeapi.co/api/v2/pokemon/${third}`);
+    const first_pokemon = await response_first_pkm.json();
+    const second_pokemon = await response_second_pkm.json();
+    const third_pokemon = await response_third_pkm.json();
+    //console.log(first_pokemon);
+    data_pokemon.push({
+        name: first_pokemon.name,
+        order: first_pokemon.order,
+        sprite: first_pokemon.sprites.front_default
+    });
+    data_pokemon.push({
+        name: second_pokemon.name,
+        order: second_pokemon.order,
+        sprite: second_pokemon.sprites.front_default
+    });
+    data_pokemon.push({
+        name: third_pokemon.name,
+        order: third_pokemon.order,
+        sprite: third_pokemon.sprites.front_default
+    });
+    console.log(data_pokemon);
+}
+await buildArrayDataEvolutions(first_evolution.name, second_evolution.name, third_evolution.name);
+
+---
+<div class="grid grid-cols-3 content-center gap-8">
+    {data_pokemon.map((pkm: any) => 
+        <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div class="flex flex-col items-center pb-10">
+                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src={pkm.sprite}/>
+                <span class="text-sm text-gray-500 dark:text-gray-400">{pkm.name}</span>
+            </div>
+        </div>
+    )}
+</div>

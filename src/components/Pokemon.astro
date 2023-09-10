@@ -1,0 +1,19 @@
+---
+import PokemonCharacteristic from "./PokemonCharacteristic.astro";
+import PokemonDescription from "./PokemonDescription.astro";
+import PokemonEvolutions from "./PokemonEvolutions.astro";
+---
+
+<div class="grid grid-cols-2">
+    <div >
+        <PokemonCharacteristic />
+    </div>
+    <div class="grid justify-items-center">
+        <PokemonDescription />
+        <div class="w-96 text-center py-2">
+            <p class="font-light text-gray-500 sm:text-xl dark:text-gray-400">Evolution chain</p>
+        </div>
+        <PokemonEvolutions />
+    </div>
+</div>
+
