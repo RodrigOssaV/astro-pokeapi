@@ -1,7 +1,6 @@
 ---
-const pokemon_species = await fetch(
-    "https://pokeapi.co/api/v2/pokemon-species/6"
-);
+const {nroPokemon} = Astro.props;
+const pokemon_species = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${nroPokemon}`);
 const data_species = await pokemon_species.json();
 const { flavor_text_entries } = data_species;
 const array = [];

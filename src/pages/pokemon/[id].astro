@@ -1,0 +1,27 @@
+---
+import Pokemon from "../../components/Pokemon.astro";
+import Layout from "../../layouts/Layout.astro";
+export async function getStaticPaths(){
+    const request = await fetch('https://pokeapi.co/api/v2/pokemon?limit=2');
+    const response = await request.json();
+    const counts = response.count;
+    const numbers = [];
+    for(let i=1;i<counts;i++){
+        console.log('inside for');
+        numbers.push({id: i});
+    }
+    console.log(numbers);
+
+    
+    return numbers.map((num: any) => ({
+        params: {id: num.id}
+    }))
+
+}
+const { id } = Astro.params;
+
+console.log(id);
+---
+<Layout title="Pokemon">
+    <Pokemon idPokemon={id}/>
+</Layout>

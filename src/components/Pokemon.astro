@@ -2,18 +2,25 @@
 import PokemonCharacteristic from "./PokemonCharacteristic.astro";
 import PokemonDescription from "./PokemonDescription.astro";
 import PokemonEvolutions from "./PokemonEvolutions.astro";
+
+const {idPokemon} = Astro.props;
+console.log(idPokemon);
+const request = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${idPokemon}`);
+const response = await request.json();
+console.log(response);
+const {evolution_chain} = response;
 ---
 
 <div class="grid sm:grid-cols-1 xl:grid-cols-2 ">
     <div>
-        <PokemonCharacteristic />
+        <PokemonCharacteristic nroPokemon={idPokemon}/>
     </div>
     <div class="grid justify-items-center">
-        <PokemonDescription />
+        <PokemonDescription nroPokemon={idPokemon}/>
         <div class="w-96 text-center py-2">
             <p class="font-light text-gray-500 sm:text-xl dark:text-gray-400">Evolution chain</p>
         </div>
-        <PokemonEvolutions />
+        <PokemonEvolutions evolution={evolution_chain}/>
     </div>
 </div>
 

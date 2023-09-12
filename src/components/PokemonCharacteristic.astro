@@ -1,5 +1,7 @@
 ---
-const pokemon = await fetch("https://pokeapi.co/api/v2/pokemon/6");
+const {nroPokemon} = Astro.props;
+console.log(nroPokemon);
+const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${nroPokemon}`);
 const data = await pokemon.json();
 
 //console.log(data);
@@ -12,7 +14,8 @@ const weight = data.weight;
     <p>
         #{data.id} - {data.name}
     </p>
-    <img src={data.sprites.front_default} />
+    <!-- <img src={data.sprites.front_default} /> -->
+    <img class="w-32 h-32" src=`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png` />
     <p>Characteristic</p>
     <ul class="list-disc px-6">
         <li><p id="pk-height">{height}</p></li>

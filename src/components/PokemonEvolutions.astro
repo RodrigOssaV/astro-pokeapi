@@ -4,7 +4,10 @@ interface PokemonClass {
     order: number;
     sprite: string;
 }
-const evolution_chain = await fetch("https://pokeapi.co/api/v2/evolution-chain/2/");
+const {evolution} = Astro.props;
+console.log(evolution);
+const url = evolution.url;
+const evolution_chain = await fetch(url);
 const data_evolution = await evolution_chain.json();
 //console.log(data_evolution);
 const first_evolution = data_evolution.chain.species;

@@ -10,8 +10,9 @@ export function getStaticPaths(){
         {params: {gen: 'fourth-generations'}, props: {url: "https://pokeapi.co/api/v2/pokemon?offset=386&limit=107", title: "Fourth generations"}}
     ]
 }
-const { gen } = Astro.params;
+/* const { gen } = Astro.params; */
 const { url, title } = Astro.props;
+
 
 const response = await fetch(url);
 const first_generation = await response.json();
@@ -22,10 +23,14 @@ const { results } = first_generation;
     <div class="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-1">
         {results.map((x: any) => 
             <div class="max-w-xs">
-                <div class="">
-                    <PokemonCard pokemon={x.name}/>
-                </div>
+                <PokemonCard pokemon={x.name}/>
             </div>
         )}
     </div>
 </Layout>
+<script>
+    document.addEventListener('scroll', (event: any) => {
+        let scroll_event = window.scrollY;
+        console.log(scroll_event);
+    })
+</script>
